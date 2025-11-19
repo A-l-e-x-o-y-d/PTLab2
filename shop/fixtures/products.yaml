@@ -1,15 +1,15 @@
 - model: shop.product
   pk: 1
   fields:
-    name: Стол
-    price: 2000
+    name: Мишка
+    price: 10000
 - model: shop.product
   pk: 2
   fields:
-    name: Стул
-    price: 1000
+    name: Пирамидка
+    price: 5000
 - model: shop.product
   pk: 3
   fields:
-    name: Табурет
-    price: 500
+    name: Машинка
+    price: 1000
