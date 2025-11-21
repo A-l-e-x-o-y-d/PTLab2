@@ -4,35 +4,41 @@ from datetime import datetime
 
 class ProductTestCase(TestCase):
     def setUp(self):
-        Product.objects.create(name="book", price="740")
-        Product.objects.create(name="pencil", price="50")
+        Product.objects.create(name="Стул", price="1000")
+        Product.objects.create(name="Кровать", price="400")
 
     def test_correctness_types(self):                   
-        self.assertIsInstance(Product.objects.get(name="book").name, str)
-        self.assertIsInstance(Product.objects.get(name="book").price, int)
-        self.assertIsInstance(Product.objects.get(name="pencil").name, str)
-        self.assertIsInstance(Product.objects.get(name="pencil").price, int)        
+        self.assertIsInstance(Product.objects.get(name="Стул").name, str)
+        self.assertIsInstance(Product.objects.get(name="Стул").price, int)
+        self.assertIsInstance(Product.objects.get(name="Кровать").name, str)
+        self.assertIsInstance(Product.objects.get(name="Кровать").price, int)        
 
     def test_correctness_data(self):
-        self.assertTrue(Product.objects.get(name="book").price == 740)
-        self.assertTrue(Product.objects.get(name="pencil").price == 50)
+        self.assertTrue(Product.objects.get(name="Стул").price == 1000)
+        self.assertTrue(Product.objects.get(name="Кровать").price == 400)
 
 
 class PurchaseTestCase(TestCase):
     def setUp(self):
-        self.product_book = Product.objects.create(name="book", price="740")
+        self.product_book = Product.objects.create(name="Шкаф", price="5000")
         self.datetime = datetime.now()
         Purchase.objects.create(product=self.product_book,
-                                person="Ivanov",
-                                address="Svetlaya St.")
+                                person="Александр Ткачёв",
+                                address="ул. Ленина 22",
+                                promo_code="discount5",
+                                final_price=4750)
 
     def test_correctness_types(self):
-        self.assertIsInstance(Purchase.objects.get(product=self.product_book).person, str)
-        self.assertIsInstance(Purchase.objects.get(product=self.product_book).address, str)
-        self.assertIsInstance(Purchase.objects.get(product=self.product_book).date, datetime)
+        purchase = Purchase.objects.get(product=self.product_book)
+        self.assertIsInstance(purchase.person, str)
+        self.assertIsInstance(purchase.address, str)
+        self.assertIsInstance(purchase.date, datetime)
+        self.assertIsInstance(purchase.promo_code, str)
+        self.assertIsInstance(purchase.final_price, int)
 
     def test_correctness_data(self):
-        self.assertTrue(Purchase.objects.get(product=self.product_book).person == "Ivanov")
-        self.assertTrue(Purchase.objects.get(product=self.product_book).address == "Svetlaya St.")
-        self.assertTrue(Purchase.objects.get(product=self.product_book).date.replace(microsecond=0) == \
-            self.datetime.replace(microsecond=0))
+        self.assertTrue(Purchase.objects.get(product=self.product_book).person == "Александр Ткачёв")
+        self.assertTrue(Purchase.objects.get(product=self.product_book).address == "ул. Ленина 22")
+        self.assertTrue(Purchase.objects.get(product=self.product_book).promo_code == "discount5")
+        self.assertTrue(Purchase.objects.get(product=self.product_book).final_price == 4750)
+        self.assertTrue(Purchase.objects.get(product=self.product_book).date.replace(microsecond=0) == self.datetime.replace(microsecond=0))
